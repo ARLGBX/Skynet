@@ -12,9 +12,9 @@ const {
 } = useHome()
 
 // ─── Add room form ─────────────────────────────────────────────────────────────
-const showAddRoom  = ref(false)
-const newRoomName  = ref('')
-const newRoomIcon  = ref('🛋')
+const showAddRoom = ref(false)
+const newRoomName = ref('')
+const newRoomIcon = ref('🛋')
 
 const submitAddRoom = () => {
   if (!newRoomName.value.trim()) return
@@ -31,7 +31,10 @@ const cancelAddRoom = () => {
 }
 
 onMounted(() => {
-  gsap.fromTo('.panel', { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, stagger: 0.07 })
+  gsap.fromTo('.panel',
+    { y: 16, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.45, stagger: 0.08, ease: 'power2.out' },
+  )
 })
 </script>
 
@@ -42,10 +45,36 @@ onMounted(() => {
     <section class="panel status-grid">
       <article>
         <h2>Состояние дома</h2>
-        <p>Комнат: {{ rooms.length }}</p>
-        <p>Активных устройств: {{ activeDevicesCount }} / {{ allDevices.length }}</p>
-        <p>Средняя температура: {{ averageTemperature }}°C</p>
-        <p>Средняя яркость: {{ averageBrightness }}%</p>
+        <div class="stat-cards">
+          <div class="stat-card">
+            <div class="stat-icon">🏠</div>
+            <div class="stat-info">
+              <div class="stat-label">Комнат</div>
+              <div class="stat-value">{{ rooms.length }}</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⚡</div>
+            <div class="stat-info">
+              <div class="stat-label">Активных</div>
+              <div class="stat-value">{{ activeDevicesCount }}/{{ allDevices.length }}</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🌡️</div>
+            <div class="stat-info">
+              <div class="stat-label">Темп. ср.</div>
+              <div class="stat-value">{{ averageTemperature }}°</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">💡</div>
+            <div class="stat-info">
+              <div class="stat-label">Яркость ср.</div>
+              <div class="stat-value">{{ averageBrightness }}%</div>
+            </div>
+          </div>
+        </div>
       </article>
 
       <article>
@@ -69,7 +98,6 @@ onMounted(() => {
         <button @click="showAddRoom = !showAddRoom">+ Комната</button>
       </div>
 
-      <!-- Add room form -->
       <div v-if="showAddRoom" class="add-form">
         <input
           v-model="newRoomName"
@@ -94,7 +122,6 @@ onMounted(() => {
 
       <FloorPlan />
 
-      <!-- Room chips with delete -->
       <div v-if="rooms.length" class="room-chips">
         <div v-for="room in rooms" :key="room.id" class="room-chip">
           <span>{{ room.icon }} {{ room.name }}</span>
