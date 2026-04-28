@@ -39,6 +39,10 @@ body {
   background: var(--body-bg);
   color: var(--text);
   transition: background-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+  overflow-x: hidden;
+  min-height: 100vh;
+  /* fallback for browsers without dvh support */
+  min-height: 100dvh;
 }
 
 h1,
@@ -504,6 +508,13 @@ input[type='color'] {
   border-left-color: var(--danger);
 }
 
+/* ─── Device list: 2 columns on medium+ screens ──────────────────────────── */
+@media (min-width: 640px) {
+  .device-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* ─── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 1050px) {
   .status-grid {
@@ -525,9 +536,68 @@ input[type='color'] {
   .main-nav {
     width: 100%;
     justify-content: flex-start;
+    flex-wrap: wrap;
   }
 
   .auth-box {
     width: 100%;
+  }
+
+  .notifications {
+    right: 8px;
+    left: 8px;
+    top: 8px;
+  }
+
+  .notice {
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .layout {
+    padding: 0.5rem;
+    gap: 0.6rem;
+  }
+
+  .layout.compact {
+    gap: 0.4rem;
+  }
+
+  .panel {
+    padding: 0.65rem;
+    border-radius: 10px;
+  }
+
+  .main-nav a {
+    font-size: 0.82rem;
+    padding: 0.28rem 0.45rem;
+  }
+
+  .back-btn {
+    font-size: 0.95rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .room-header h1 {
+    font-size: clamp(0.9rem, 4.5vw, 1.2rem);
+  }
+
+  .history-panel ul {
+    max-height: 220px;
+  }
+
+  .plan-container {
+    max-height: 260px;
+  }
+
+  .scenario-buttons,
+  .settings-actions,
+  .form-actions {
+    gap: 0.35rem;
+  }
+
+  .device-list {
+    grid-template-columns: 1fr;
   }
 }

@@ -1,4 +1,6 @@
 <script setup>
+import { onMounted, ref } from 'vue'
+import { gsap } from 'gsap'
 import { useHome } from '../composables/useHome.js'
 
 const {
@@ -6,10 +8,21 @@ const {
   authMode, email, password,
   login, register, logout,
 } = useHome()
+
+const headerEl = ref(null)
+
+onMounted(() => {
+  if (headerEl.value) {
+    gsap.fromTo(headerEl.value,
+      { y: -24, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.45, ease: 'power3.out' },
+    )
+  }
+})
 </script>
 
 <template>
-  <header class="panel app-header">
+  <header ref="headerEl" class="panel app-header">
     <div class="header-left">
       <router-link to="/" class="brand">🏠 Умный дом</router-link>
       <p class="account-info">

@@ -1,6 +1,7 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { gsap } from 'gsap'
 import { useHome } from '../composables/useHome.js'
 
 const { rooms, isRoomLit } = useHome()
@@ -25,6 +26,18 @@ const layoutRooms = computed(() => {
   }))
 })
 
+const svgEl = ref(null)
+
+onMounted(() => {
+  if (!svgEl.value) return
+  const groups = svgEl.value.querySelectorAll('.room-group')
+  if (!groups.length) return
+  gsap.fromTo(groups,
+    { opacity: 0, y: 12 },
+    { opacity: 1, y: 0, duration: 0.45, stagger: 0.07, ease: 'power2.out' },
+  )
+})
+
 const enterRoom = (id) => router.push({ name: 'room', params: { id } })
 </script>
 
@@ -32,6 +45,7 @@ const enterRoom = (id) => router.push({ name: 'room', params: { id } })
   <div class="plan-container">
     <svg
       v-if="layoutRooms.length"
+      ref="svgEl"
       class="floor-plan"
       viewBox="0 0 610 480"
       xmlns="http://www.w3.org/2000/svg"
